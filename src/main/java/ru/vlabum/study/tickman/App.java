@@ -18,4 +18,5 @@ public class App
         seatsCinema.fillSeats(1, new String[] {"1", "1"});
         seatsCinema.fillSeats(2, new String[] {"1", "2"});
     }
+
 }
