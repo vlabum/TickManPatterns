@@ -5,7 +5,7 @@ public class SeatCinema implements Seat{
     private String line;
     private String place;
 
-    public SeatCinema(int id, String[] partsName) {
+    public SeatCinema(int id, String... partsName) {
         if (partsName.length != 2) {
             throw new IllegalArgumentException("in second parameter need Line and Place");
         }
