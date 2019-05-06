@@ -20,6 +20,19 @@ public class SetOfSeats {
         }
     }
 
+    public Seat getSeat(final int index) {
+        return seats.get(index);
+    }
+
+    public Seat getSeatByID(final int id) {
+        for (Seat seat : seats) {
+            if (seat.getID() == id) {
+                return seat;
+            }
+        }
+        return null;
+    }
+
     public void fillSeats(Seat[] seats) {
         this.seats.addAll(Arrays.asList(seats));
     }

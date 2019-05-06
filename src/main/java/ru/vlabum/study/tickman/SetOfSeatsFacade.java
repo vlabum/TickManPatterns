@@ -30,4 +30,8 @@ public class SetOfSeatsFacade {
         setOfSeats.printSeats(10);
     }
 
+    public Seat getSeat(final int index) {
+        return setOfSeats.getSeat(index);
+    }
+
 }
