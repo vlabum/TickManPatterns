@@ -1,30 +1,56 @@
 package ru.vlabum.study.tickman;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class SetOfSeats {
-
-    public static String SEAT_HOCKEY = "hockey";
-
-    public static String SEAT_CINENA = "cinema";
 
     private List<Seat> seats = new ArrayList<>();
 
     private SeatFactory seatFactory;
 
     public SetOfSeats(String typeSeat) {
-        if (SEAT_CINENA.equals(typeSeat)) {
+        if (Consts.SEAT_CINENA.equals(typeSeat)) {
             seatFactory = new SeatFactoryCinema();
-        } else if (SEAT_HOCKEY.equals(typeSeat)) {
+        } else if (Consts.SEAT_HOCKEY.equals(typeSeat)) {
             seatFactory = new SeatFactoryHockey();
         } else {
             throw new IllegalArgumentException();
         }
     }
 
-    public void fillSeats(int id, String[] partsName) {
+    public void fillSeats(Seat[] seats) {
+        this.seats.addAll(Arrays.asList(seats));
+    }
+
+    public void addSeat(int id, String[] partsName) {
         seats.add(seatFactory.createSeat(id, partsName));
+    }
+
+    public void printSeats() {
+        for (Seat seat : seats) {
+            System.out.print(seat.getFullName());
+        }
+    }
+
+    /**
+     * Печать мест
+     * @param n - количество мест в строке
+     */
+    public void printSeats(int n) {
+        int i = 0;
+        if (n < 1) {
+            n = 1;
+        }
+        for (Seat seat : seats) {
+            if (i++ >= n) {
+                System.out.println();
+                i = 0;
+            }
+            System.out.print(seat.getFullName());
+            System.out.print(";\t");
+        }
     }
 
 }

@@ -9,7 +9,7 @@ public class SeatHockey implements Seat {
     private String line;
     private String place;
 
-    public SeatHockey(int id, String[] partsName) {
+    public SeatHockey(int id, String... partsName) {
         if (partsName.length != 3) {
             throw new IllegalArgumentException("in second parameter need Sector, Line and Place");
         }
