@@ -5,7 +5,7 @@ package ru.vlabum.study.tickman;
  * Примеры адресов "Ряд", "Место". В некоторых случаях может быть еще и "Сектор".
  */
 public interface Seat {
-    int getID();
+    long getId();
     String getFullName();
     String getPartName(int nPart);
 }

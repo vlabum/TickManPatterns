@@ -1,15 +1,21 @@
 package ru.vlabum.study.tickman;
 
+import ru.vlabum.study.tickman.data.SoldControlDB;
+
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 public class SoldControl implements SeatListener {
 
     public SoldControlManager soldControlManager = new SoldControlManager();
 
-    private Map<Integer, SetSeats> map = new HashMap<>();
+    private SoldControlDB soldControlDB = new SoldControlDB(App.conn);
+
+    private Map<Long, SetSeats> soldControl;
+
+    public SoldControl() {
+        soldControl = soldControlDB.selectAll();
+    }
 
     @Override
     public void update(final Object context, Event event, Seat seat, boolean release) {
@@ -22,45 +28,59 @@ public class SoldControl implements SeatListener {
 
     private void releaseSeat(final Object context, final Event event, final Seat seat) {
         boolean isAffected = false;
-        if (map.containsKey(event.getId())) {
-            if (map.get(event.getId()).contains(seat.getID())) {
-                map.get(event.getId()).remove(seat.getID());
-                isAffected = true;
+        final long eventId = event.getId();
+        boolean found = find(event, seat);
+        if (found) {
+            soldControl.get(eventId).remove(seat.getId());
+            if (soldControl.get(eventId).isEmpty()) {
+                soldControl.remove(eventId);
             }
+            isAffected = true;
         }
         soldControlManager.notify(context, event, seat, false, isAffected);
+        soldControlDB.delete(event, seat);
     }
 
     private void addSeat(final Object context, final Event event, final Seat seat) {
         boolean isAffected = false;
-        if (!map.containsKey(event.getId())) {
-            map.put(event.getId(), new SetSeats());
-            map.get(event.getId()).add(seat.getID());
-            isAffected = true;
-        } else {
-            if (!(map.get(event.getId())).contains(seat.getID())) {
-                map.get(event.getId()).add(seat.getID());
-                isAffected = true;
+        final long eventId = event.getId();
+        boolean found = find(event, seat);
+        if (!found) {
+            if (soldControl.containsKey(eventId)) {
+                soldControl.get(eventId).add(seat.getId());
+            } else {
+                soldControl.put(eventId, new SetSeats());
+                soldControl.get(eventId).add(seat.getId());
             }
+            isAffected = true;
         }
         soldControlManager.notify(context, event, seat, isAffected, false);
+        soldControlDB.insert(event, seat);
     }
 
-    class SetSeats {
-
-        Set<Integer> set = new HashSet<>();
-
-        void add (final Integer id) {
-            set.add(id);
+    private boolean find(final Event event, final Seat seat) {
+        boolean found = false;
+        boolean foundEvent = false;
+        final long eventId = event.getId();
+        final long seatId = seat.getId();
+        // ищем в коллекции
+        if (soldControl.containsKey(eventId)) {
+            foundEvent = true;
+            if (soldControl.get(eventId).contains(seatId)) {
+                found = true;
+            }
         }
-
-        void remove(final Integer id) {
-            set.remove(id);
+        // смотрим в БД
+        if (!found) {
+            if (soldControlDB.exists(event, seat)) {
+                if (!foundEvent) {
+                    soldControl.put(eventId, new SetSeats());
+                }
+                soldControl.get(eventId).add(seatId);
+                found = true;
+            }
         }
-
-        boolean contains(final Integer id) {
-            return set.contains(id);
-        }
+        return found;
     }
 
 }

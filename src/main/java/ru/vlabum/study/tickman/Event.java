@@ -4,19 +4,19 @@ import java.util.Date;
 
 public class Event {
 
-    private int id;
+    private long id;
 
     private String name;
 
     private Date dateBegin;
 
-    public Event (final int id, final String name, final Date dateBegin) {
+    public Event (final long id, final String name, final Date dateBegin) {
         this.id = id;
         this.name = name;
         this.dateBegin = dateBegin;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
