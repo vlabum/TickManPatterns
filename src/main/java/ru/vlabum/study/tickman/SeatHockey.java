@@ -21,7 +21,7 @@ public class SeatHockey implements Seat {
 
     @Override
     public int getID() {
-        return 0;
+        return id;
     }
 
     @Override
