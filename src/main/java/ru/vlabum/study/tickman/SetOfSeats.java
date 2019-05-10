@@ -26,7 +26,7 @@ public class SetOfSeats {
 
     public Seat getSeatByID(final int id) {
         for (Seat seat : seats) {
-            if (seat.getID() == id) {
+            if (seat.getId() == id) {
                 return seat;
             }
         }

@@ -1,7 +1,7 @@
 package ru.vlabum.study.tickman;
 
 public class SeatCinema implements Seat{
-    private int id;
+    private long id;
     private String line;
     private String place;
 
@@ -15,7 +15,7 @@ public class SeatCinema implements Seat{
     }
 
     @Override
-    public int getID() {
+    public long getId() {
         return id;
     }
 

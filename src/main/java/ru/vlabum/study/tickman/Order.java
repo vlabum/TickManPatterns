@@ -25,7 +25,7 @@ public class Order implements SoldControlListener {
 
     private void releaseSeatCall(final Event event, final Seat seat) {
         for (OrderItem oi : orderItems) {
-            if (oi.getEvent().getId() == event.getId() && oi.getSeat().getID() == seat.getID()) {
+            if (oi.getEvent().getId() == event.getId() && oi.getSeat().getId() == seat.getId()) {
                 orderItems.remove(oi);
                 System.out.println("removed " + seat.getFullName());
             }

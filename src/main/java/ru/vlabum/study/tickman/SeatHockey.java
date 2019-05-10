@@ -4,7 +4,7 @@ import ru.vlabum.study.tickman.Seat;
 
 public class SeatHockey implements Seat {
 
-    private int id;
+    private long id;
     private String sector;
     private String line;
     private String place;
@@ -20,7 +20,7 @@ public class SeatHockey implements Seat {
     }
 
     @Override
-    public int getID() {
+    public long getId() {
         return id;
     }
 
